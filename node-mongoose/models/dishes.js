@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const dishSchema = new Schema(
+const commentSchema = new Schema(
   {
-    name: {
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      required: true,
+    },
+    comment: {
       type: String,
       required: true,
-      unique: true,
     },
-    description: {
+    author: {
       type: String,
       required: true,
     },
@@ -17,6 +22,23 @@ const dishSchema = new Schema(
     timestamps: true,
   }
 );
+
+const dishSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  slogan: {
+    type: String,
+    required: true,
+  },
+  comments: [commentSchema],
+});
 
 var Dishes = mongoose.model("Dish", dishSchema);
 

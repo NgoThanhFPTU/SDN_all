@@ -9,18 +9,37 @@ connect.then((db) => {
   console.log("Connected correctly to server");
 
   Dishes.create({
-    name: "Ngo Le Thanh",
-    description: "SE",
-    slogan: "Hello new day| I'm Thanh",
+    name: "Beef Steak 3",
+    description: "Medium raw 3",
+    slogan: "Ngon lam dung dua 3",
   })
 
     .then((dish) => {
       console.log(dish);
 
-      return Dishes.find({});
+      return Dishes.findByIdAndUpdate(
+        dish._id,
+        {
+          $set: { description: "Updated Ngon lam dung dua 3" },
+        },
+        {
+          new: true,
+        }
+      ).exec();
     })
-    .then((dishes) => {
-      console.log(dishes);
+    .then((dish) => {
+      console.log(dish);
+
+      dish.comments.push({
+        rating: 5,
+        comment: "Ngon vai lon!",
+        author: "Em tien ngu",
+      });
+
+      return dish.save();
+    })
+    .then((dish) => {
+      console.log(dish);
 
       return Dishes.remove({});
     })
